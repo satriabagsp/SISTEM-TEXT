@@ -1,10 +1,10 @@
 mkdir -p ~/.streamlit/
 
 echo "[theme]
-primaryColor = '#f94144'
-backgroundColor = '#202124'
-secondaryBackgroundColor = '#2c2f38'
-textColor = '#ffffff'
+primaryColor = '#6eb52f'
+backgroundColor = '#f0f0f5'
+secondaryBackgroundColor = '#e0e0ef'
+textColor = '#262730'
 font = 'sans serif'
 [server]
 headless = true
