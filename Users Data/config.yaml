@@ -1,0 +1,17 @@
+cookie:
+  expiry_days: 30
+  key: some_signature_key
+  name: some_cookie_name
+credentials:
+  usernames:
+    admin:
+      email: test_user@gmail.com
+      name: admin
+      password: $2b$12$u3aoS2Sn2WBKym.yUd/5x.gfJoNHPAugTi8zuRXSEQStzqtzgNDJu
+    satria.bagus:
+      email: satriabgsp22@gmail.com
+      name: Satria Bagus Panuntun
+      password: $2b$12$EUdMiHsOObqXBD/Z9gLydeN5weY93KpaQzDLEutNZ0D79tXxEexXe
+preauthorized:
+  emails:
+  - satriabgsp22@gmail.com
