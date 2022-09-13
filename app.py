@@ -20,10 +20,27 @@ st.set_page_config(
     )
 
 # Remove Whitespace, hamburger, and "Made with streamlit"
+# hide_streamlit_style = """
+#             <style>
+#             #MainMenu {visibility: hidden;}
+#             footer {visibility: hidden;}
+#             .css-18e3th9 {
+#                     padding-top: 0rem;
+#                     padding-bottom: 10rem;
+#                     padding-left: 5rem;
+#                     padding-right: 5rem;
+#                 }
+#                .css-1d391kg {
+#                     padding-top: 3.5rem;
+#                     padding-right: 1rem;
+#                     padding-bottom: 3.5rem;
+#                     padding-left: 1rem;
+#                 }
+#         </style>
+#             """
+
 hide_streamlit_style = """
             <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
             .css-18e3th9 {
                     padding-top: 0rem;
                     padding-bottom: 10rem;
@@ -53,8 +70,8 @@ authenticator = stauth.Authenticate(
 )
 
 # Login Page
-judul = st.markdown("<h1 style='text-align: center; color: #f94144;'>SIDINIBAKERJA</h1>", unsafe_allow_html=True)
-subjudul = st.markdown("<h2 style='text-align: center; color: #ffffff;'>Sistem Evaluasi Dini Berbasis Anggaran dan Kinerja</h2>", unsafe_allow_html=True)
+judul = st.markdown("<h1 style='text-align: center; color: #f94144;'>COBA ANALISIS ASIK</h1>", unsafe_allow_html=True)
+# subjudul = st.markdown("<h2 style='text-align: center; color: #ffffff;'>Sistem Evaluasi Dini Berbasis Anggaran dan Kinerja</h2>", unsafe_allow_html=True)
     
 col1, col2, col3 = st.columns(3)
 with col2:
