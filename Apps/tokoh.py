@@ -75,7 +75,7 @@ def app():
 
         st.plotly_chart(line_per_hari, use_container_width=True)
 
-    col_1, col_2, col_3 = st.columns([1,1,2]) 
+    col_1, col_2 = st.columns([1,1]) 
 
     # WORDCLOUD
     with col_1:
@@ -94,7 +94,7 @@ def app():
 
 
     # DATAFRAME BERITA
-    with col_3:
+    with col_2:
         st.write('**Daftar Berita dimana Tokoh Disebut**')
         df_berita_selection['link'] = 'link'
         df_berita_filter = df_berita_selection[['judul_berita', 'tanggal', 'link']]
