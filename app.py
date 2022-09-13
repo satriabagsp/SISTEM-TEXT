@@ -97,7 +97,7 @@ if st.session_state["authentication_status"]:
             selected = option_menu(
                 menu_title = 'ANALISIS ASIK',
                 menu_icon = 'ui-radios',
-                options = ['Beranda', 'Tokoh', 'Analisis Sentimen', 'Atur Profil'],
+                options = ['Beranda', 'Dashboard', 'Statistics Portal', 'News Portal', 'Social Media Portal', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'NER',  'Atur Profil'],
                 icons = ['house-door', 'journal-album', 'bullseye', 'gear']
             )
     else:
@@ -130,7 +130,7 @@ if st.session_state["authentication_status"]:
                 """
                 )
 
-    if selected == 'Tokoh':
+    if selected == 'NER':
         tokoh.app()
 
     if selected == 'Atur Profil':
