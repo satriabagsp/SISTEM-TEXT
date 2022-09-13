@@ -4,7 +4,6 @@ from datetime import datetime, date
 from deta import Deta
 import io
 import xlrd
-import mysql.connector as mysql
 import re
 import string
 # xlrd.xlsx.ensure_elementtree_imported(False, None)
