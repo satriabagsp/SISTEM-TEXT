@@ -7,7 +7,7 @@ import yaml
 from PIL import Image
 import all_func
 import plotly.express as px
-from Apps import capaian_kinerja_page, datamaster_page, news_portal, target_realisasi_page, performa_page
+from Apps import news_portal, socmed_portal
 from deta import Deta  # Import Deta
 import io
 
@@ -95,7 +95,7 @@ if st.session_state["authentication_status"]:
         # Sidebar menu
         with st.sidebar:
             selected = option_menu(
-                menu_title = 'MOCKUP ANALISIS',
+                menu_title = 'MOCKUP',
                 menu_icon = 'ui-radios',
                 options = ['Beranda', 'News Portal', 'Social Media Portal', 'Statistics Portal (Sentiment)', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'Atur Profil'],
                 icons = ['house-door', 'newspaper', 'gpu-card', 'file-bar-graph-fill', 'geo-alt-fill', 'people-fill', 'emoji-smile-fill', 'gear-wide-connected', 'gear']
@@ -132,6 +132,9 @@ if st.session_state["authentication_status"]:
 
     if selected == 'News Portal':
         news_portal.app()
+
+    if selected == 'Social Media Portal':
+        socmed_portal.app()
 
     if selected == 'Atur Profil':
         st.title(selected)

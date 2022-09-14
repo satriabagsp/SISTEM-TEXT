@@ -9,8 +9,7 @@ import matplotlib.pyplot as plt
 
 def app():
 
-    st.title("News Portal")
-    # st.markdown(f'<h1 style="color:#fe9028;font-size:42px;">Pagu Anggaran</h1>', unsafe_allow_html=True)
+    st.title("Social Media Portal")
 
     ## Read File
     df_berita = st.session_state["df_berita"]
@@ -63,6 +62,12 @@ def app():
         df_berita_selection = df_berita_selection[df_berita_selection['url_berita'].isin(list_url)].reset_index(drop=True)
     
     st.markdown("""---""")
+
+    card1, card2, card3, card4 = st.columns(4)
+    card1.metric("Total Tweets", "14124")
+    card2.metric("Total Retweets", "242")
+    card3.metric("Total Likes", "2222")
+    card4.metric("Total Replies", "1244")
     
     col1, col2, col3 = st.columns([4,1,1]) 
 
@@ -94,7 +99,7 @@ def app():
     # Tokoh Berita
     with col2:
         st.write('**10 Tokoh Paling Sering Disebut**')
-        st.write(df_tokoh_group.set_index('Nama').head(10))
+        st.dataframe(df_tokoh_group.set_index('Nama').head(10))
 
     # Pie sumber berita harian
     with col3:
@@ -103,7 +108,7 @@ def app():
             )
         sumber_berita = sumber_berita[['sumber', 'url_berita']].rename(columns={'sumber':'Sumber','url_berita':'Jumlah'})
         st.write('**Sumber Berita**')
-        st.write(sumber_berita.set_index('Sumber'))
+        st.dataframe(sumber_berita.set_index('Sumber'))
             
         # pie_sumber_berita = px.pie(sumber_berita,
         #         values = 'url_berita',
