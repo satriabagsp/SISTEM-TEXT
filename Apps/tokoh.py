@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 def app():
 
-    st.title("Tokoh")
+    st.title("News Portal")
     # st.markdown(f'<h1 style="color:#fe9028;font-size:42px;">Pagu Anggaran</h1>', unsafe_allow_html=True)
 
     ## Read File
