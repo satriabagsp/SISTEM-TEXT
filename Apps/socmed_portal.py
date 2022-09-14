@@ -5,86 +5,58 @@ import all_func
 import plotly.express as px
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-
+import ast
+from PIL import Image
 
 def app():
 
     st.title("Social Media Portal")
 
     ## Read File
-    df_berita = st.session_state["df_berita"]
-    df_tokoh = st.session_state["df_tokoh"]
-    df_berita['konten_clean'] = df_berita['konten_clean'].astype(str)
-
-    # Filter
-    df_tokoh_group = df_tokoh.groupby('nama_tokoh', as_index=False).count().sort_values(by=['id_berita'], ascending=False).reset_index(drop=True).rename(columns={'nama_tokoh':'Nama', 'id_berita':'Jumlah'})
+    df_twitter = pd.read_csv('Data/pemilu2024.csv')
+    df_twitter = df_twitter[['id','date','mentioned','hashtags','tweet_clean','username','likeCount', 'renderedContent','retweetCount']]
+    df_twitter['date'] = pd.to_datetime(df_twitter['date']).dt.date
+    df_twitter['media'] = 'Media Sosial'
+    df_twitter['aspek'] = 'Pemilu'
+    df_twitter['tweet_clean'] = df_twitter['tweet_clean'].astype(str)
+    df_twitter['id'] = df_twitter['id'].astype(str)
 
     c1,c2,c3 = st.columns(3)
 
     with c1:
         topik = st.selectbox('Pilih Topik:',
-            options=df_berita['aspek'].unique()
-        )
-
-    with c2:
-        list_nama = df_tokoh_group['Nama'].drop_duplicates().to_list()
-        list_nama = ['Semua'] + list_nama 
-        tokoh = st.selectbox('Pilih Tokoh:',
-            options = list_nama
+            options=df_twitter['aspek'].unique()
         )
 
     # Filter DF berdasarkan isian topik
-    df_berita_selection = df_berita.query(
+    df_twitter_selection = df_twitter.query(
         'aspek == @topik'
     )
 
-    # Filter DF berdasarkan isian tokoh
-    if tokoh == 'Semua':
-        df_tokoh_selection = df_tokoh
-    else:
-        df_tokoh_selection = df_tokoh.query(
-            'nama_tokoh == @tokoh'
-        )
-    list_url = df_tokoh_selection['id_berita'].to_list()
-
-    # Filter DF berdasarkan isian topik
-    df_berita_selection = df_berita.query(
-        'aspek == @topik'
-    )
-
-    if tokoh == 'Semua':
-        df_berita_selection = df_berita_selection
-    else:
-        df_tokoh_selection = df_tokoh.query(
-                'nama_tokoh == @tokoh'
-            )
-        list_url = df_tokoh_selection['id_berita'].to_list()
-        df_berita_selection = df_berita_selection[df_berita_selection['url_berita'].isin(list_url)].reset_index(drop=True)
-    
     st.markdown("""---""")
 
     card1, card2, card3, card4 = st.columns(4)
-    card1.metric("Total Tweets", "14124")
-    card2.metric("Total Retweets", "242")
-    card3.metric("Total Likes", "2222")
-    card4.metric("Total Replies", "1244")
+    card1.metric("Total Tweets", "99398")
+    card2.metric("Total Retweets", "217152")
+    card3.metric("Total Likes", "685152")
+    card4.metric("Total Replies", "13819")
     
     col1, col2, col3 = st.columns([4,1,1]) 
 
     # Line jumlah berita harian
     with col1:
         jumlah_muncul_per_hari = (
-                df_berita_selection.groupby('tanggal', as_index=False).agg(jumlah = ('url_berita','count'))
+                df_twitter.groupby('date', as_index=False).agg(jumlah = ('id','count'))
             ) 
-        jumlah_muncul_per_hari = jumlah_muncul_per_hari[jumlah_muncul_per_hari['tanggal'] != '0000-00-00']
+
         line_per_hari = px.line(jumlah_muncul_per_hari,
-                x = 'tanggal',
+                x = 'date',
                 y = 'jumlah',
                 orientation = 'v',
-                title = f'<b>Pemberitaan Harian</b>',
+                title = f'<b>Tweets Harian</b>',
                 color_discrete_sequence = px.colors.qualitative.Set2,
                 template = 'plotly_white',
-                labels={'jumlah':'Jumlah Muncul', 'tanggal': 'Tanggal'}, 
+                labels={'jumlah':'Jumlah Muncul', 'date': 'Tanggal'}, 
                 width = 1250,
                 height = 450
             )
@@ -96,64 +68,71 @@ def app():
 
         st.plotly_chart(line_per_hari, use_container_width=True)
 
-    # Tokoh Berita
+    # Mention
     with col2:
-        st.write('**10 Tokoh Paling Sering Disebut**')
-        st.dataframe(df_tokoh_group.set_index('Nama').head(10))
+        # Most Accounts Mentioned in Tweet
+        mentioned = list()
+        for user in df_twitter.mentioned:
+            if not pd.isna(user):
+                for i in ast.literal_eval(user):
+                    mentioned.append(i)
 
-    # Pie sumber berita harian
+        st.write('**Top 10 Akun Dimention**')
+        aa = pd.DataFrame(mentioned, columns=['Accounts']).Accounts.value_counts().sort_values(ascending=False)[:10]
+        st.dataframe(aa)
+
+    # Hashtag
     with col3:
-        sumber_berita = (
-                df_berita_selection.groupby(by=['sumber'], as_index=False).count()
-            )
-        sumber_berita = sumber_berita[['sumber', 'url_berita']].rename(columns={'sumber':'Sumber','url_berita':'Jumlah'})
-        st.write('**Sumber Berita**')
-        st.dataframe(sumber_berita.set_index('Sumber'))
-            
-        # pie_sumber_berita = px.pie(sumber_berita,
-        #         values = 'url_berita',
-        #         names = 'sumber',
-        #         title = f'<b>Sumber Berita</b>',
-        #         width = 1250,
-        #         height = 650,
-        #         color_discrete_sequence = px.colors.qualitative.Set2,
-        #         # template = 'plotly_white',
-        #         labels={'sumber':'Sumber', 'url_berita': 'Jumlah'}, 
-        #     )
-        # pie_sumber_berita.update_traces(textposition='inside', textinfo='percent+label')
-        # pie_sumber_berita.update_layout(
-        #         font=dict(
-        #             size=12,
-        #         )
-        #     )
-        # pie_sumber_berita.update(layout_showlegend=False)
-        # pie_sumber_berita.update_layout({ 'plot_bgcolor': 'rgba(0, 0, 0, 0)'})
+        hastags = list()
+        for tags in df_twitter.hashtags:
+            if not pd.isna(tags):
+                for i in ast.literal_eval(tags):
+                    hastags.append(i)
 
-        # st.plotly_chart(pie_sumber_berita, use_container_width=True)
+        st.write('**Top 10 Hashtag**')
+        bb = pd.DataFrame(hastags, columns=['hastags']).hastags.value_counts().sort_values(ascending=False)[:10]
+        st.dataframe(bb)
 
+    col_1, col_2 = st.columns(2) 
 
-    col_1, col_2 = st.columns([1,1]) 
+    # NETWORK ANALISIS
+    with col_1:
+        st.write('**Network Analysis**')
+        image = Image.open('Data/Network.jpeg')
+
+        st.image(image, width=672)
+
 
     # WORDCLOUD
-    with col_1:
-        st.write('**Wordcloud Terkait**')
-        # Teks
-        teks_all = ' '.join(df_berita_selection['konten_clean'].to_list())
-
-        # Wordcloud semua komentar
-        wordcloud = WordCloud(width=1600, height=1500, max_font_size=200, background_color='white')
-        wordcloud.generate(teks_all)
-
-        plt.figure(figsize=(12,10))
-        plt.imshow(wordcloud, interpolation='bilinear')
-        plt.axis("off")
-        st.pyplot(plt)
-
-
-    # DATAFRAME BERITA
     with col_2:
-        st.write('**Daftar Berita Terkait**')
-        df_berita_selection['link'] = 'link'
-        df_berita_filter = df_berita_selection[['judul_berita', 'tanggal', 'link']]
-        df_berita_filter = df_berita_filter.rename(columns={'judul_berita':'Judul','tanggal':'Tanggal','link':'Link'})
-        st.dataframe(df_berita_filter.set_index('Judul'))
+        st.write('**Wordcloud**')
+        # # Teks
+        # teks_all = ' '.join(df_twitter['tweet_clean'].to_list())
+
+        # # Wordcloud semua komentar
+        # wordcloud = WordCloud(width=1600, height=1500, max_font_size=200, background_color='white', collocations=False)
+        # wordcloud.generate(teks_all)
+
+        # plt.figure(figsize=(12,10))
+        # plt.imshow(wordcloud, interpolation='bilinear')
+        # plt.axis("off")
+        # st.pyplot(plt)
+        image = Image.open('Data/wordcloud.png')
+
+        st.image(image)
+
+    c1, c2 = st.columns(2) 
+
+    # TOP LIKED
+    with c1:
+        st.write('**Top 5 Likes Tweet**')
+        # Most Liked Tweet by Account
+        like_most = df_twitter.sort_values(by='likeCount',ascending=False)[:5]
+        st.table(like_most[['renderedContent', 'likeCount']].set_index('renderedContent'))
+
+    # TOP RETWEET
+    with c2:
+        st.write('**Top 5 Retweeted Tweet**')
+        # Most Liked Tweet by Account
+        like_most = df_twitter.sort_values(by='retweetCount',ascending=False)[:5]
+        st.table(like_most[['renderedContent', 'retweetCount']].set_index('renderedContent'))
