@@ -5,7 +5,7 @@ import all_func
 import plotly.express as px
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-
+from PIL import Image
 
 def app():
 
@@ -93,7 +93,7 @@ def app():
 
     # Tokoh Berita
     with col2:
-        st.write('**10 Tokoh Paling Sering Disebut**')
+        st.write('**Top 10 Tokoh Disebut**')
         st.write(df_tokoh_group.set_index('Nama').head(10))
 
     # Pie sumber berita harian
@@ -133,16 +133,19 @@ def app():
     with col_1:
         st.write('**Wordcloud Terkait**')
         # Teks
-        teks_all = ' '.join(df_berita_selection['konten_clean'].to_list())
+        # teks_all = ' '.join(df_berita_selection['konten_clean'].to_list())
 
-        # Wordcloud semua komentar
-        wordcloud = WordCloud(width=1600, height=1500, max_font_size=200, background_color='white')
-        wordcloud.generate(teks_all)
+        # # Wordcloud semua komentar
+        # wordcloud = WordCloud(width=1600, height=1500, max_font_size=200, background_color='white', collocations=False)
+        # wordcloud.generate(teks_all)
 
-        plt.figure(figsize=(12,10))
-        plt.imshow(wordcloud, interpolation='bilinear')
-        plt.axis("off")
-        st.pyplot(plt)
+        # plt.figure(figsize=(12,10))
+        # plt.imshow(wordcloud, interpolation='bilinear')
+        # plt.axis("off")
+        # st.pyplot(plt)
+
+        image = Image.open('Data/wordcloud berita.png')
+        st.image(image)
 
 
     # DATAFRAME BERITA

@@ -35,6 +35,11 @@ def get_data_tokoh():
 
     return tokoh_berita
 
+def get_data_twitter():
+    twitter = pd.read_csv('Data/tweet-pemilu2024-sentiment.csv', sep = ',',  encoding='iso-8859-1', error_bad_lines=False, engine='python')
+
+    return twitter
+
 def wordcloud(teks):
     df_stopwords = pd.read_csv('Data/stopwords_tambahan.csv', sep = ';')
     teks = str(teks)

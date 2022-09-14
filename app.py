@@ -7,7 +7,7 @@ import yaml
 from PIL import Image
 import all_func
 import plotly.express as px
-from Apps import news_portal, socmed_portal
+from Apps import news_portal, socmed_portal, statistics_portal
 from deta import Deta  # Import Deta
 import io
 
@@ -71,25 +71,22 @@ authenticator = stauth.Authenticate(
 
 # Login Page
 judul = st.markdown("<h1 style='text-align: center; color: #f94144;'>Mockup Analisis Teks Pemilu</h1>", unsafe_allow_html=True)
-# subjudul = st.markdown("<h2 style='text-align: center; color: #ffffff;'>Sistem Evaluasi Dini Berbasis Anggaran dan Kinerja</h2>", unsafe_allow_html=True)
-    
+
 col1, col2, col3 = st.columns(3)
 with col2:
     # Login form
     name, authentication_status, username = authenticator.login('Login', 'main')
 
 if st.session_state["authentication_status"]:
-    # st.write(f'Welcome *{st.session_state["name"]}*')
     judul.empty()
-    # subjudul.empty()
 
     ## Read File
     df_berita = all_func.get_data_berita()
     df_tokoh = all_func.get_data_tokoh()
+    df_twitter = all_func.get_data_twitter()
     st.session_state["df_berita"] = df_berita
     st.session_state["df_tokoh"] = df_tokoh
-
-    # st.table(df_utama)
+    st.session_state["df_twitter"] = df_twitter
 
     if st.session_state["username"] == 'admin':
         # Sidebar menu
@@ -97,7 +94,7 @@ if st.session_state["authentication_status"]:
             selected = option_menu(
                 menu_title = 'MOCKUP',
                 menu_icon = 'ui-radios',
-                options = ['Beranda', 'News Portal', 'Social Media Portal', 'Statistics Portal (Sentiment)', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'Atur Profil'],
+                options = ['Beranda', 'News Portal', 'Social Media Portal', 'Statistics Portal', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'Atur Profil'],
                 icons = ['house-door', 'newspaper', 'gpu-card', 'file-bar-graph-fill', 'geo-alt-fill', 'people-fill', 'emoji-smile-fill', 'gear-wide-connected', 'gear']
             )
     else:
@@ -135,6 +132,9 @@ if st.session_state["authentication_status"]:
 
     if selected == 'Social Media Portal':
         socmed_portal.app()
+
+    if selected == 'Statistics Portal':
+        statistics_portal.app()
 
     if selected == 'Atur Profil':
         st.title(selected)
