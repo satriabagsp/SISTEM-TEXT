@@ -14,7 +14,7 @@ import io
 # Fullscreen
 im = Image.open("Image/page_icon.png")
 st.set_page_config(
-        page_title="TEKS ASIK",
+        page_title="MOCKUP - ANALISIS TEKS PEMILU",
         page_icon=im,
         layout="wide",
     )
@@ -95,9 +95,9 @@ if st.session_state["authentication_status"]:
         # Sidebar menu
         with st.sidebar:
             selected = option_menu(
-                menu_title = 'ANALISIS ASIK',
+                menu_title = 'MOCKUP ANALISIS',
                 menu_icon = 'ui-radios',
-                options = ['Beranda', 'Dashboard', 'Statistics Portal (Sentiment)', 'News Portal', 'Social Media Portal', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'NER',  'Atur Profil'],
+                options = ['Beranda', 'News Portal', 'Social Media Portal', 'Statistics Portal (Sentiment)', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'NER',  'Atur Profil'],
                 icons = ['house-door', 'journal-album', 'bullseye', 'gear']
             )
     else:
@@ -115,7 +115,7 @@ if st.session_state["authentication_status"]:
 
     # Halaman Beranda
     if selected == 'Beranda':
-        st.title('SIDINIBAKERJA')
+        st.title('MOCKUP - ANALISIS TEKS PEMILU')
 
         st.markdown("""---""")
 
@@ -130,7 +130,7 @@ if st.session_state["authentication_status"]:
                 """
                 )
 
-    if selected == 'NER':
+    if selected == 'News Portal':
         tokoh.app()
 
     if selected == 'Atur Profil':
