@@ -70,7 +70,7 @@ authenticator = stauth.Authenticate(
 )
 
 # Login Page
-judul = st.markdown("<h1 style='text-align: center; color: #f94144;'>COBA ANALISIS ASIK</h1>", unsafe_allow_html=True)
+judul = st.markdown("<h1 style='text-align: center; color: #f94144;'>Mockup Analisis Teks Pemilu</h1>", unsafe_allow_html=True)
 # subjudul = st.markdown("<h2 style='text-align: center; color: #ffffff;'>Sistem Evaluasi Dini Berbasis Anggaran dan Kinerja</h2>", unsafe_allow_html=True)
     
 col1, col2, col3 = st.columns(3)
@@ -123,7 +123,7 @@ if st.session_state["authentication_status"]:
                 f"""
                 Selamat datang **{st.session_state["name"]}**,
 
-                **ANALISIS TEKS ASIK** merupakan aplikasi asik.
+                **MOCKUP - ANALISIS TEKS PEMILU** merupakan mockup aplikasi analisis teks.
 
                 Untuk pertanyaan atau masukan silakan hubungi **Admin** melalui
                 [E-Mail](https://mail.google.com/) | [Twitter](https://twitter.com/) | [YouTube](https://www.youtube.com/c/).
