@@ -94,8 +94,8 @@ if st.session_state["authentication_status"]:
             selected = option_menu(
                 menu_title = 'MOCKUP',
                 menu_icon = 'ui-radios',
-                options = ['Beranda', 'News Portal', 'Social Media Portal', 'Statistics Portal', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'Atur Profil'],
-                icons = ['house-door', 'newspaper', 'gpu-card', 'file-bar-graph-fill', 'geo-alt-fill', 'people-fill', 'emoji-smile-fill', 'gear-wide-connected', 'gear']
+                options = ['Beranda','Social Media Portal', 'News Portal', 'Statistics Portal', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'Atur Profil'],
+                icons = ['house-door','gpu-card', 'newspaper', 'file-bar-graph-fill', 'geo-alt-fill', 'people-fill', 'emoji-smile-fill', 'gear-wide-connected', 'gear']
             )
     else:
         # Sidebar menu
