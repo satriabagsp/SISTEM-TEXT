@@ -94,7 +94,7 @@ def app():
     # Tokoh Berita
     with col2:
         st.write('**10 Tokoh Paling Sering Disebut**')
-        st.dataframe(df_tokoh_group.head(10))
+        st.dataframe(df_tokoh_group.set_index('Nama').head(10))
 
     # Pie sumber berita harian
     with col3:
@@ -103,7 +103,7 @@ def app():
             )
         sumber_berita = sumber_berita[['sumber', 'url_berita']].rename(columns={'sumber':'Sumber','url_berita':'Jumlah'})
         st.write('**Sumber Berita**')
-        st.dataframe(sumber_berita)
+        st.dataframe(sumber_berita.set_index('Sumber'))
             
         # pie_sumber_berita = px.pie(sumber_berita,
         #         values = 'url_berita',
