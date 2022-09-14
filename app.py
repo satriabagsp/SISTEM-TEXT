@@ -7,7 +7,7 @@ import yaml
 from PIL import Image
 import all_func
 import plotly.express as px
-from Apps import capaian_kinerja_page, datamaster_page, target_realisasi_page, performa_page, tokoh
+from Apps import capaian_kinerja_page, datamaster_page, news_portal, target_realisasi_page, performa_page
 from deta import Deta  # Import Deta
 import io
 
@@ -44,7 +44,7 @@ hide_streamlit_style = """
             .css-18e3th9 {
                     padding-top: 0rem;
                     padding-bottom: 10rem;
-                    padding-left: 5rem;
+                    padding-left: 3rem;
                     padding-right: 5rem;
                 }
                .css-1d391kg {
@@ -97,8 +97,8 @@ if st.session_state["authentication_status"]:
             selected = option_menu(
                 menu_title = 'MOCKUP ANALISIS',
                 menu_icon = 'ui-radios',
-                options = ['Beranda', 'News Portal', 'Social Media Portal', 'Statistics Portal (Sentiment)', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'NER',  'Atur Profil'],
-                icons = ['house-door', 'journal-album', 'bullseye', 'gear']
+                options = ['Beranda', 'News Portal', 'Social Media Portal', 'Statistics Portal (Sentiment)', 'Location Portal', 'Demography Portal', 'Emotion Portal', 'SNA', 'Atur Profil'],
+                icons = ['house-door', 'newspaper', 'gpu-card', 'file-bar-graph-fill', 'geo-alt-fill', 'people-fill', 'emoji-smile-fill', 'gear-wide-connected', 'gear']
             )
     else:
         # Sidebar menu
@@ -131,7 +131,7 @@ if st.session_state["authentication_status"]:
                 )
 
     if selected == 'News Portal':
-        tokoh.app()
+        news_portal.app()
 
     if selected == 'Atur Profil':
         st.title(selected)
